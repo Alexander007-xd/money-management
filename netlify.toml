@@ -1,0 +1,4 @@
+[build]
+  base = "taka-khata"
+  command = "npm ci --include=dev && npm run build"
+  publish = "dist"
