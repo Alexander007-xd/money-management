@@ -1,0 +1,11 @@
+# The app lives in the taka-khata/ subfolder, so build from there.
+[build]
+  base = "taka-khata"
+  command = "npm ci && npm run build"
+  publish = "dist"
+
+# Serve index.html for any unknown path (safe fallback for the single-page app).
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
