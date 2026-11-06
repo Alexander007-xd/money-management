@@ -1,0 +1,27 @@
+:root {
+  --paper: #FBF7EF;
+  --surface: #FFFFFF;
+  --line: #E6DECF;
+  --ink: #1F2A24;
+  --ink-muted: #5F594D;
+  --income: #1E7B4F;
+  --income-soft: #E3F2EA;
+  --expense: #B5412F;
+  --expense-soft: #F8E6E1;
+  --warning: #B7791F;
+  --focus: #1F2A24;
+
+  --radius-s: 10px;
+  --radius-m: 16px;
+  --radius-l: 24px;
+
+  --space-1: 4px; --space-2: 8px; --space-3: 12px; --space-4: 16px;
+  --space-5: 24px; --space-6: 32px; --space-7: 48px;
+
+  --font: "Hind Siliguri", system-ui, sans-serif;
+  --fs-body: 17px;
+  --fs-small: 15px;
+  --fs-title: 22px;
+  --fs-big: 28px;
+  --fs-balance: 46px;
+}
