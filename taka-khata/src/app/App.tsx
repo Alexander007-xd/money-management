@@ -47,32 +47,37 @@ function AppRoutes({ storedLanguage, onLanguageChosen }: AppRoutesProps) {
 
   return (
     <>
-      <Routes>
-        <Route
-          path={ROUTES.welcome}
-          element={<WelcomeScreen onStart={onLanguageChosen} />}
-        />
-        <Route path={ROUTES.home} element={guard(<HomeScreen />)} />
-        <Route path={ROUTES.addIncome} element={guard(<AddIncomeScreen />)} />
-        <Route path={ROUTES.addExpense} element={guard(<AddExpenseScreen />)} />
-        <Route path={ROUTES.edit} element={guard(<EditEntryScreen />)} />
-        <Route path={ROUTES.history} element={guard(<HistoryScreen />)} />
-        <Route path={ROUTES.report} element={guard(<ReportScreen />)} />
-        <Route path={ROUTES.check} element={guard(<CashCheckScreen />)} />
-        <Route path={ROUTES.more} element={guard(<MoreScreen />)} />
-        <Route path={ROUTES.categories} element={guard(<CategoriesScreen />)} />
-        <Route path={ROUTES.backup} element={guard(<BackupScreen />)} />
-        <Route path={ROUTES.install} element={guard(<InstallHelpScreen />)} />
-        <Route
-          path="*"
-          element={
-            <Navigate
-              to={storedLanguage === null ? ROUTES.welcome : ROUTES.home}
-              replace
-            />
-          }
-        />
-      </Routes>
+      <main>
+        <Routes>
+          <Route
+            path={ROUTES.welcome}
+            element={<WelcomeScreen onStart={onLanguageChosen} />}
+          />
+          <Route path={ROUTES.home} element={guard(<HomeScreen />)} />
+          <Route path={ROUTES.addIncome} element={guard(<AddIncomeScreen />)} />
+          <Route path={ROUTES.addExpense} element={guard(<AddExpenseScreen />)} />
+          <Route path={ROUTES.edit} element={guard(<EditEntryScreen />)} />
+          <Route path={ROUTES.history} element={guard(<HistoryScreen />)} />
+          <Route path={ROUTES.report} element={guard(<ReportScreen />)} />
+          <Route path={ROUTES.check} element={guard(<CashCheckScreen />)} />
+          <Route path={ROUTES.more} element={guard(<MoreScreen />)} />
+          <Route
+            path={ROUTES.categories}
+            element={guard(<CategoriesScreen />)}
+          />
+          <Route path={ROUTES.backup} element={guard(<BackupScreen />)} />
+          <Route path={ROUTES.install} element={guard(<InstallHelpScreen />)} />
+          <Route
+            path="*"
+            element={
+              <Navigate
+                to={storedLanguage === null ? ROUTES.welcome : ROUTES.home}
+                replace
+              />
+            }
+          />
+        </Routes>
+      </main>
       {storedLanguage !== null && !hideNav ? <BottomNav /> : null}
     </>
   )

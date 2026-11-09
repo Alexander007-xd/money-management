@@ -101,7 +101,7 @@ Legend: [ ] todo, [x] done. Do tasks in order. One phase per session (fresh chat
 - [x] 8.2 Accessibility and polish pass: aria-labels, focus outlines, tap target sizes, reduced motion, long text and large number layouts (9,999,999.99), small screen 360px
   - Done when: no overflow at 360px; all icon buttons labeled
   - Test: add a test that every icon-only button has an accessible name
-  - Verified: `src/test/accessibility.test.tsx` (26 screen/language cases); every route measured at a 360px viewport with no horizontal overflow and no undersized tap target; `৳9,999,999.99` shrinks to 22px and fits.
+  - Verified: `src/test/accessibility.test.tsx` (5 tests covering 10 routes in both languages, plus the main landmark); every route measured at a 360px viewport with no horizontal overflow and no undersized tap target; `৳9,999,999.99` shrinks to 22px and fits; Lighthouse on the live Home scores 1.0 for accessibility, best practices and SEO.
 - [x] 8.3 Deploy: set Vite `base` for the chosen host, build, upload `dist/` to GitHub Pages or Netlify, write `README.md` with a 5-line "how to install on phone and share the link" in Bangla and English
   - Done when: the public link opens on an Android phone and installs
   - Test: manual

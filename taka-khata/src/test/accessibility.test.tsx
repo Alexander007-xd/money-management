@@ -87,6 +87,26 @@ describe('Accessibility', () => {
     }
   })
 
+  it('puts the screen content inside one main landmark', async () => {
+    await setSetting('language', 'en')
+
+    for (const route of ROUTES) {
+      window.location.hash = route
+      const view = render(<App />)
+
+      await waitFor(() => {
+        expect(document.querySelector('.app-shell')).toBeTruthy()
+      })
+
+      const mains = Array.from(document.querySelectorAll('main'))
+
+      expect(mains, `main landmarks on ${route}`).toHaveLength(1)
+      expect(mains[0].querySelector('h1'), `heading in main on ${route}`).toBeTruthy()
+
+      view.unmount()
+    }
+  })
+
   it('labels the month switcher arrows on History and Report', async () => {
     await setSetting('language', 'en')
 
