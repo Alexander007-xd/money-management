@@ -19,7 +19,12 @@ INCOME = (30, 123, 79, 255)
 EXPENSE = (181, 65, 47, 255)
 LINE = (230, 222, 207, 255)
 
-OUT_DIR = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "public", "icons")
+ROOT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+OUT_DIR = os.path.join(ROOT_DIR, "public", "icons")
+
+# Sources for `@capacitor/assets`, which turns them into the Android launcher
+# icon and splash screens (run `npx capacitor-assets generate --android`).
+ANDROID_ASSETS_DIR = os.path.join(ROOT_DIR, "assets")
 
 
 def draw_icon(size: int, maskable: bool) -> Image.Image:
@@ -71,6 +76,15 @@ def draw_icon(size: int, maskable: bool) -> Image.Image:
     return image
 
 
+def draw_splash(size: int) -> Image.Image:
+    """Paper-coloured splash with the app mark centred on it."""
+    image = Image.new("RGBA", (size, size), PAPER)
+    mark = draw_icon(int(size * 0.34), maskable=False)
+    offset = (size - mark.width) // 2
+    image.alpha_composite(mark, (offset, offset))
+    return image
+
+
 def main() -> None:
     os.makedirs(OUT_DIR, exist_ok=True)
 
@@ -87,6 +101,15 @@ def main() -> None:
         path = os.path.join(OUT_DIR, name)
         draw_icon(size, maskable).save(path, "PNG")
         print(f"wrote {path}")
+
+    # `@capacitor/assets` sources: a 1024px launcher icon and a 2732px splash.
+    os.makedirs(ANDROID_ASSETS_DIR, exist_ok=True)
+    icon_path = os.path.join(ANDROID_ASSETS_DIR, "icon.png")
+    draw_icon(1024, False).save(icon_path, "PNG")
+    print(f"wrote {icon_path}")
+    splash_path = os.path.join(ANDROID_ASSETS_DIR, "splash.png")
+    draw_splash(2732).save(splash_path, "PNG")
+    print(f"wrote {splash_path}")
 
 
 if __name__ == "__main__":

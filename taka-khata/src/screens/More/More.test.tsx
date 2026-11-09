@@ -1,5 +1,6 @@
+import { Capacitor } from '@capacitor/core'
 import { fireEvent, render, screen } from '@testing-library/react'
-import { afterEach, beforeEach, describe, expect, it } from 'vitest'
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import App from '../../app/App'
 import { APP_VERSION } from '../../app/version'
 import { db } from '../../data/db'
@@ -8,7 +9,16 @@ import { bn } from '../../i18n/bn'
 import { en } from '../../i18n/en'
 import type { Language } from '../../i18n/types'
 
+vi.mock('@capacitor/core', () => ({
+  Capacitor: {
+    isNativePlatform: vi.fn(),
+  },
+}))
+
+const isNativePlatform = vi.mocked(Capacitor.isNativePlatform)
+
 beforeEach(async () => {
+  isNativePlatform.mockReturnValue(false)
   await db.settings.clear()
   window.location.hash = ''
 })
@@ -52,6 +62,24 @@ describe('More', () => {
         en['more.version'].replace('{version}', APP_VERSION),
       ),
     ).toBeTruthy()
+  })
+
+  it('shows the install link in a browser', async () => {
+    isNativePlatform.mockReturnValue(false)
+    await openMore('en')
+
+    expect(
+      screen.getByRole('link', { name: en['more.install'] }).getAttribute('href'),
+    ).toBe('#/more/install')
+  })
+
+  it('hides the install link inside the Android app', async () => {
+    isNativePlatform.mockReturnValue(true)
+    await openMore('en')
+
+    expect(screen.queryByRole('link', { name: en['more.install'] })).toBeNull()
+    expect(screen.getByRole('link', { name: en['more.backup'] })).toBeTruthy()
+    expect(screen.getByRole('link', { name: en['more.categories'] })).toBeTruthy()
   })
 
   it('switches to Bangla and saves the choice', async () => {

@@ -1,3 +1,4 @@
+import { Capacitor } from '@capacitor/core'
 import { ChevronRight, Database, Info, Smartphone, Tag } from 'lucide-react'
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
@@ -10,6 +11,8 @@ export default function MoreScreen() {
   const { lang, setLang, t } = useLanguage()
   const [saving, setSaving] = useState(false)
   const [failed, setFailed] = useState(false)
+  // The installed APK has no browser install flow, so that row is hidden there.
+  const isNative = Capacitor.isNativePlatform()
 
   async function choose(next: Language): Promise<void> {
     if (next === lang || saving) {
@@ -75,13 +78,15 @@ export default function MoreScreen() {
           <span className="more-link__label">{t('more.backup')}</span>
           <ChevronRight aria-hidden="true" size={22} strokeWidth={2} />
         </Link>
-        <Link className="more-link" to={ROUTES.install}>
-          <span className="more-link__icon">
-            <Smartphone aria-hidden="true" size={24} strokeWidth={2} />
-          </span>
-          <span className="more-link__label">{t('more.install')}</span>
-          <ChevronRight aria-hidden="true" size={22} strokeWidth={2} />
-        </Link>
+        {isNative ? null : (
+          <Link className="more-link" to={ROUTES.install}>
+            <span className="more-link__icon">
+              <Smartphone aria-hidden="true" size={24} strokeWidth={2} />
+            </span>
+            <span className="more-link__label">{t('more.install')}</span>
+            <ChevronRight aria-hidden="true" size={22} strokeWidth={2} />
+          </Link>
+        )}
       </nav>
 
       <section className="more-about">

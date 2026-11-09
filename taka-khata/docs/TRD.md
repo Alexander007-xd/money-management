@@ -9,6 +9,7 @@
 | Routing | react-router-dom v6 with `HashRouter` | works on any static host, no server rules |
 | Storage | Dexie (IndexedDB) | offline, simple API, transactions |
 | PWA | vite-plugin-pwa | manifest + service worker + offline cache |
+| Android | Capacitor (`core`, `cli`, `android`, `filesystem`, `share`) | same React app in a native shell, APK built without Android Studio |
 | Icons | lucide-react | line icons, tree-shaken |
 | Font | @fontsource/hind-siliguri | Bangla + English, bundled so it works offline |
 | Tests | Vitest + @testing-library/react + @testing-library/user-event + fake-indexeddb + jsdom | fast, runs in terminal |
@@ -101,16 +102,46 @@ npm install
 npm run dev        # local dev server
 npm test           # all tests once
 npm run typecheck
-npm run build      # outputs dist/
-npm run preview    # test the built PWA locally
+npm run build         # GitHub Pages build, outputs dist/
+npm run build:netlify # Netlify build (mode netlify), outputs dist/
+npm run preview       # test the built PWA locally
+npm run check:netlify # after build:netlify, checks dist/ uses the root base
 ```
-Deploy: upload `dist/` to a free static host (GitHub Pages or Netlify). Vite `base` must be set correctly for the host (see Plan.md Phase 8).
+
+## Deploy
+The Vite `base` depends on where the build is served from, so each host has its own mode and script. `npm run build` must keep the GitHub Pages base.
+
+| Host | Command | `base` | Served from |
+|---|---|---|---|
+| GitHub Pages | `npm run build` | `/money-management/` | project sub-path |
+| Netlify | `npm run build:netlify` (`vite build --mode netlify`) | `/` | site root |
+| Android APK | `npm run build:android` (`vite build --mode android`) | `./` | Capacitor web server |
+| dev server | `npm run dev` | `/` | local root |
+| `npm run preview` | `npm run preview` | `/money-management/` | local sub-path |
+
+- Both web builds keep the PWA. The manifest uses relative `start_url: '.'`, `scope: '.'` and relative icon paths, so it resolves from whichever base was built (`/` on Netlify, `/money-management/` on Pages) without per-host config.
+- `scripts/check-netlify-build.mjs` (`npm run check:netlify`) fails when `dist/index.html`, `dist/manifest.webmanifest` or `dist/sw.js` still contain `/money-management/`, or when the entry script is not root-absolute. Run it after `npm run build:netlify`.
+- Netlify: root `netlify.toml` sets `command = "npm run build:netlify"` and `publish = "dist"`. `HashRouter` means no SPA redirect rule is needed.
+- GitHub Pages: upload the *contents* of `dist/` plus an empty `.nojekyll` to the `gh-pages` branch.
+
+## Android build
+The same web app ships as an installable Android APK through Capacitor. The web build is unchanged: `npm run build` still uses base `/money-management/` and the PWA service worker. The Android build uses `npm run build:android` (`vite build --mode android`), which sets base `./` and turns VitePWA off because the native shell loads `dist/` from its own web server and must not register a web service worker.
+
+- Native config: `capacitor.config.ts` (appId `com.takakhata.app`, appName `Taka Khata`, webDir `dist`, backgroundColor `#FBF7EF`). Native platform folder: `android/`.
+- Export on Android: `<a download>` does not work in a WebView. `src/lib/nativeFile.ts` writes the JSON backup to `Directory.Cache` with `@capacitor/filesystem` and opens the system share sheet with `@capacitor/share`; on the web it keeps the existing Blob download.
+- Signing: `android/app/takakhata.keystore` is local-only and ignored by Git; release APKs must use the same PKCS12 key so Android can install updates over the existing app. Configure the GitHub repository secrets `ANDROID_KEYSTORE_BASE64` (base64-encoded keystore), `TAKAKHATA_STORE_PASSWORD`, `TAKAKHATA_KEY_ALIAS` and `TAKAKHATA_KEY_PASSWORD` for CI. For local release builds, provide the keystore at that path and set the three `TAKAKHATA_*` environment variables. Never commit the keystore or its credentials.
+- CI: `.github/workflows/android-apk.yml` (repo root) runs on `workflow_dispatch`, pushes to `main` and `v*` tags: **Node 22** (`actions/setup-node@v4`), **Java 21 temurin** (`actions/setup-java@v4`), `android-actions/setup-android@v3`, `npm ci`, `npm test`, `npm run build:android`, `npx cap sync android`, then `./gradlew assembleRelease`, and uploads `app-release.apk` as the `taka-khata-apk` artifact. Tags starting with `v` also attach the APK to a GitHub Release. It does not touch the `gh-pages` branch, so Pages deployment keeps working.
+- The two toolchain versions are not free choices: `android/app/capacitor.build.gradle` compiles with `JavaVersion.VERSION_21` (Capacitor 7 + Gradle 8.11), and `vitest@5` requires Node `^22.12.0` while `jsdom@30` requires `^22.22.2`, so the workflow cannot use Node 20. The `android/.gitignore` from the Capacitor template ignores `*.apk`, `build/`, `.gradle/`, `local.properties`, the copied `app/src/main/assets/public`, and signing keystores.
+- Icons/splash: `python scripts/generate-icons.py` writes the PWA icons into `public/icons/` **and** the Capacitor sources `assets/icon.png` (1024x1024) and `assets/splash.png` (2732x2732, paper `#FBF7EF`); `npx capacitor-assets generate --android` turns those into the adaptive launcher icons and every splash density (87 resources).
 
 ## package.json scripts (exact)
 ```json
 {
   "dev": "vite",
   "build": "tsc --noEmit && vite build",
+  "build:android": "tsc --noEmit && vite build --mode android",
+  "build:netlify": "tsc --noEmit && vite build --mode netlify",
+  "check:netlify": "node scripts/check-netlify-build.mjs",
   "preview": "vite preview",
   "test": "vitest run",
   "typecheck": "tsc --noEmit"

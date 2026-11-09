@@ -6,11 +6,18 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc --noEmit && vite build",
+    "build:android": "tsc --noEmit && vite build --mode android",
+    "build:netlify": "tsc --noEmit && vite build --mode netlify",
+    "check:netlify": "node scripts/check-netlify-build.mjs",
     "preview": "vite preview",
     "test": "vitest run",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
+    "@capacitor/android": "^7.6.10",
+    "@capacitor/core": "^7.6.10",
+    "@capacitor/filesystem": "^7.1.9",
+    "@capacitor/share": "^7.0.4",
     "@fontsource/hind-siliguri": "^5.3.0",
     "dexie": "^4.4.7",
     "dexie-react-hooks": "^4.4.0",
@@ -20,6 +27,8 @@
     "react-router-dom": "^6.30.6"
   },
   "devDependencies": {
+    "@capacitor/assets": "^3.0.5",
+    "@capacitor/cli": "^7.6.10",
     "@testing-library/dom": "^10.4.2",
     "@testing-library/react": "^16.3.3",
     "@testing-library/user-event": "^14.6.8",

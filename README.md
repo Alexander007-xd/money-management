@@ -26,6 +26,32 @@ The app lives in the [`taka-khata/`](taka-khata) folder. It is a PWA: install it
 
 ---
 
+## Android app (APK)
+
+The same app also installs as a normal Android app. You do not need Play Store.
+
+### বাংলা
+
+১. এই লিংকটি খুলুন: https://github.com/alexander007-xd/money-management/actions/workflows/android-apk.yml — তারপর সবচেয়ে নতুন সফল (সবুজ ✓) রানের উপরে চাপুন।
+২. নিচে **Artifacts** অংশে **taka-khata-apk** চাপুন। একটি `.zip` নামবে; ভেতরে `app-release.apk` আছে।
+৩. ফোনে `.zip` খুলে `app-release.apk`-এ চাপুন। "Install unknown apps" জিজ্ঞাসা করলে Settings-এ গিয়ে আপনার ব্রাউজার/ফাইল ম্যানেজারের জন্য এটি চালু করুন, তারপর ফিরে এসে আবার ইনস্টল চাপুন।
+৪. নতুন সংস্করণ আসলে **আগে More → Backup থেকে ব্যাকআপ সেভ করুন**, তারপর নতুন APK ইনস্টল করুন। ইনস্টল করলে পুরোনো অ্যাপের তথ্য মুছে যায় না, তবে ব্যাকআপ রাখা নিরাপদ।
+৫. অ্যাপ ইনস্টল হলে ব্রাউজারের লিংক আর দরকার নেই — হোম স্ক্রিনের আইকন থেকেই খুলবে, ইন্টারনেট ছাড়াও চলবে।
+
+Release করার সময় (`v` দিয়ে শুরু হওয়া tag) APK টি সরাসরি Releases পেজেও পাওয়া যাবে।
+
+### English
+
+1. Open https://github.com/alexander007-xd/money-management/actions/workflows/android-apk.yml and tap the newest successful (green ✓) run.
+2. Under **Artifacts**, tap **taka-khata-apk**. A `.zip` downloads; inside it is `app-release.apk`.
+3. On the phone, open the `.zip` and tap `app-release.apk`. If Android asks about "Install unknown apps", open Settings, allow it for your browser/file manager, come back and tap install again.
+4. Before installing a newer version, **save a backup from More → Backup** first. Installing over the old app keeps your data, but a backup is the safe habit.
+5. Once installed you no longer need the browser link: open the app from the home-screen icon, and it works without internet.
+
+When a build is tagged with `v…`, the APK is also attached to the Releases page.
+
+---
+
 ## Development
 
 ```bash

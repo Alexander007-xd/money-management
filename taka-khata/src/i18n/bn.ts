@@ -149,6 +149,7 @@ export const bn = {
   'backup.title': 'ব্যাকআপ',
   'backup.saveFile': 'ব্যাকআপ ফাইল সেভ করুন',
   'backup.saveHint': 'একটা ফাইলে আপনার সব তথ্য সেভ হবে।',
+  'backup.shareTitle': 'ব্যাকআপ ফাইল শেয়ার করুন',
   'backup.restore': 'ব্যাকআপ থেকে ফেরান',
   'backup.restoreHint': 'আগের ব্যাকআপ ফাইল দিয়ে সব তথ্য ফিরিয়ে আনা যাবে।',
   'backup.reminder': 'আপনার তথ্য শুধু এই ফোনেই থাকে। সপ্তাহে একবার ব্যাকআপ সেভ করুন।',

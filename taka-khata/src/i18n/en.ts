@@ -150,6 +150,7 @@ export const en: Record<TranslationKey, string> = {
   'backup.title': 'Backup',
   'backup.saveFile': 'Save backup file',
   'backup.saveHint': 'All your data will be saved in one file.',
+  'backup.shareTitle': 'Share backup file',
   'backup.restore': 'Restore from backup',
   'backup.restoreHint': 'Bring back all your data from an old backup file.',
   'backup.reminder': 'Your data lives only on this phone. Save a backup once a week.',

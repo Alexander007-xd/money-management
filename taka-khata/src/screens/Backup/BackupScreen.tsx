@@ -2,6 +2,7 @@ import React, { useRef, useState } from 'react'
 import Button from '../../components/Button'
 import ConfirmDialog from '../../components/ConfirmDialog'
 import { exportAll, importAll } from '../../data/repo'
+import { downloadJson } from '../../lib/nativeFile'
 import { useLanguage } from '../../i18n'
 import type { ImportState } from '../../app/routes'
 import type { BackupData } from '../../data/types'
@@ -21,14 +22,8 @@ export default function BackupScreen() {
   async function handleExport(): Promise<void> {
     const data = await exportAll()
     const json = JSON.stringify(data, null, 2)
-    const blob = new Blob([json], { type: 'application/json' })
-    const url = URL.createObjectURL(blob)
-    const a = document.createElement('a')
     const stamp = new Date().toISOString().slice(0, 10)
-    a.href = url
-    a.download = `taka-khata-backup-${stamp}.json`
-    a.click()
-    URL.revokeObjectURL(url)
+    await downloadJson(json, `taka-khata-backup-${stamp}.json`, t)
   }
 
   // ---------- Import: file picked ----------
