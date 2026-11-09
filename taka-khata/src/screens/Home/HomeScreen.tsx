@@ -92,7 +92,7 @@ export default function HomeScreen() {
   return (
     <section className="home-screen">
       <header className="home-header">
-        <span className="home-header__app">{t('app.name')}</span>
+        <h1 className="home-header__app">{t('app.name')}</h1>
         <span className="home-header__date">{formatDay(today(), lang)}</span>
       </header>
 

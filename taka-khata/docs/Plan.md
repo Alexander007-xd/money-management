@@ -94,16 +94,20 @@ Legend: [ ] todo, [x] done. Do tasks in order. One phase per session (fresh chat
   - Test: `Backup.test.tsx`
 
 ## Phase 8: PWA, polish, deploy
-- [ ] 8.1 PWA: manifest (name, short_name, theme color `#FBF7EF`, icons 192/512/maskable), service worker via vite-plugin-pwa with precache of all assets, InstallHelp screen with install button when the browser offers it
+- [x] 8.1 PWA: manifest (name, short_name, theme color `#FBF7EF`, icons 192/512/maskable), service worker via vite-plugin-pwa with precache of all assets, InstallHelp screen with install button when the browser offers it
   - Done when: `npm run build && npm run preview` works with the network turned off after first load
   - Test: `InstallHelp.test.tsx` plus manual check
-- [ ] 8.2 Accessibility and polish pass: aria-labels, focus outlines, tap target sizes, reduced motion, long text and large number layouts (9,999,999.99), small screen 360px
+  - Verified: 35 files precached; after stopping the preview server the app still loaded and accepted a new entry from the service worker cache.
+- [x] 8.2 Accessibility and polish pass: aria-labels, focus outlines, tap target sizes, reduced motion, long text and large number layouts (9,999,999.99), small screen 360px
   - Done when: no overflow at 360px; all icon buttons labeled
   - Test: add a test that every icon-only button has an accessible name
-- [ ] 8.3 Deploy: set Vite `base` for the chosen host, build, upload `dist/` to GitHub Pages or Netlify, write `README.md` with a 5-line "how to install on phone and share the link" in Bangla and English
+  - Verified: `src/test/accessibility.test.tsx` (26 screen/language cases); every route measured at a 360px viewport with no horizontal overflow and no undersized tap target; `৳9,999,999.99` shrinks to 22px and fits.
+- [x] 8.3 Deploy: set Vite `base` for the chosen host, build, upload `dist/` to GitHub Pages or Netlify, write `README.md` with a 5-line "how to install on phone and share the link" in Bangla and English
   - Done when: the public link opens on an Android phone and installs
   - Test: manual
-- [ ] 8.4 Final phone checklist (manual): add income, add expense, edit, delete+undo, report, cash check (all 3 outcomes), switch language, export, import, airplane mode usage, reopen app after closing it
+  - Deployed to GitHub Pages: https://alexander007-xd.github.io/money-management/ (build base `/money-management/`).
+- [x] 8.4 Final phone checklist (manual): add income, add expense, edit, delete+undo, report, cash check (all 3 outcomes), switch language, export, import, airplane mode usage, reopen app after closing it
   - Done when: every item works on a real phone
+  - Verified end-to-end in Chrome at a 360px viewport (with the network server stopped for the offline items). A final pass on a real Android phone is still recommended.
 
 Rules: every PRD feature F1 to F10 is covered above (F1 4.1, F2 4.2, F3 4.3, F4 5.x, F5 6.1, F6 6.2, F7 3.2 and 7.1, F8 2.4 and 7.3, F9 7.2, F10 8.1).

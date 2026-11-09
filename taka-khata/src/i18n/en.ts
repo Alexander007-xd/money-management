@@ -166,6 +166,10 @@ export const en: Record<TranslationKey, string> = {
   'install.step2': 'Tap "Add to Home screen".',
   'install.step3': 'Tap "Install".',
   'install.button': 'Install',
+  'install.done': 'The app is installed on your phone.',
+  'install.note': 'After installing, the app will be on your phone icon.',
+  'install.offlineNote':
+    'After installing the app works without internet, but your data stays only on this phone.',
 
   'day.today': 'Today',
   'day.yesterday': 'Yesterday',

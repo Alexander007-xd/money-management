@@ -30,6 +30,7 @@ body {
   max-width: 480px;
   min-height: 100vh;
   padding: 0 20px;
+  overflow-x: hidden;
 }
 
 h1,
@@ -67,6 +68,31 @@ a {
 
 .screen {
   padding: var(--space-5) 0;
+}
+
+/* A short fade and slide when the screen changes. */
+.home-screen,
+.entry-screen,
+.history-screen,
+.report-screen,
+.check-screen,
+.more-screen,
+.categories-screen,
+.backup-screen,
+.install-screen {
+  animation: screen-in 150ms ease;
+}
+
+@keyframes screen-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .screen__title {
@@ -174,6 +200,11 @@ a {
   border: 2px solid transparent;
   border-radius: var(--radius-m);
   font-weight: 700;
+  transition: transform 120ms ease;
+}
+
+.btn:active:not(:disabled) {
+  transform: scale(0.98);
 }
 
 .btn:disabled {
@@ -506,6 +537,10 @@ a {
   font-size: var(--fs-balance);
   font-weight: 700;
   line-height: 1.1;
+}
+
+.balance-card__amount.is-compact {
+  font-size: var(--fs-big);
 }
 
 .balance-card__amount.is-negative {
@@ -1099,4 +1134,166 @@ a {
   color: var(--ink-muted);
   font-size: var(--fs-small);
   font-weight: 700;
+}
+
+.install-screen {
+  padding: var(--space-5) 0 var(--space-6);
+}
+
+.install-steps {
+  margin: var(--space-5) 0 0;
+  padding: 0;
+  list-style: none;
+  counter-reset: install-step;
+}
+
+.install-step {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+  min-height: 64px;
+  padding: var(--space-3) 0;
+}
+
+.install-step + .install-step {
+  border-top: 1px solid var(--line);
+}
+
+.install-step__number {
+  display: flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--ink);
+  color: var(--surface);
+  font-weight: 700;
+}
+
+.install-step__text {
+  flex: 1;
+  padding-top: var(--space-1);
+}
+
+.install-action {
+  margin-top: var(--space-5);
+}
+
+.install-done {
+  margin-top: var(--space-4);
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-m);
+  background: var(--income-soft);
+  color: var(--income);
+  font-weight: 700;
+}
+
+.install-note {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-2);
+  margin-top: var(--space-4);
+  color: var(--ink-muted);
+  font-size: var(--fs-small);
+}
+
+.install-note svg {
+  flex: none;
+  margin-top: 2px;
+}
+
+.backup-screen {
+  padding: var(--space-5) 0 var(--space-6);
+}
+
+.backup-action {
+  margin-top: var(--space-5);
+}
+
+.backup-action__hint {
+  margin-top: var(--space-2);
+  color: var(--ink-muted);
+  font-size: var(--fs-small);
+}
+
+.backup-file-input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.backup-status {
+  margin-top: var(--space-4);
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-m);
+  background: var(--surface);
+  font-weight: 700;
+}
+
+.backup-status--done {
+  background: var(--income-soft);
+  color: var(--income);
+}
+
+.backup-reminder {
+  margin-top: var(--space-5);
+  padding: var(--space-4);
+  border-radius: var(--radius-m);
+  background: var(--expense-soft);
+  color: var(--expense);
+  font-size: var(--fs-small);
+}
+
+/* Long text must wrap instead of pushing the layout wider than the screen. */
+.screen__title,
+.section-label,
+.balance-card__label,
+.balance-card__hint,
+.check-expected,
+.install-step__text,
+.install-note,
+.dialog__title,
+.dialog__message,
+.empty-state p {
+  overflow-wrap: anywhere;
+}
+
+/* The balance number is the widest thing on the screen; keep it on one line
+   and shrink it when it would not fit. */
+.balance-card__amount {
+  white-space: nowrap;
+}
+
+@media (max-width: 380px) {
+  .app {
+    padding: 0 16px;
+  }
+
+  .balance-card__amount {
+    font-size: var(--fs-big);
+  }
+
+  .balance-card__amount.is-compact {
+    font-size: var(--fs-title);
+  }
+
+  .amount-input__field,
+  .amount-input__symbol {
+    font-size: 36px;
+  }
+
+  .big-action__label {
+    font-size: var(--fs-body);
+  }
+
+  .icon-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
 }

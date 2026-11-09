@@ -165,6 +165,10 @@ export const bn = {
   'install.step2': '"Add to Home screen" বা "হোম স্ক্রিনে যোগ করুন"-এ চাপ দিন।',
   'install.step3': '"Install" বা "ইনস্টল"-এ চাপ দিন।',
   'install.button': 'ইনস্টল করুন',
+  'install.done': 'অ্যাপটা ফোনে ইনস্টল হয়ে গেছে।',
+  'install.note': 'ইনস্টল করার পর অ্যাপটা ফোনের আইকনে পাবেন।',
+  'install.offlineNote':
+    'ইনস্টল করার পর ইন্টারনেট ছাড়াই অ্যাপটা চলবে, তবে তথ্য শুধু এই ফোনেই থাকবে।',
 
   'day.today': 'আজ',
   'day.yesterday': 'গতকাল',

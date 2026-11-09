@@ -57,7 +57,8 @@ describe('App routing', () => {
     render(<App />)
 
     expect(await screen.findByText(en['home.empty'])).toBeTruthy()
-    expect(screen.queryByRole('heading', { name: en['app.name'] })).toBeNull()
+    // The Welcome screen's own Start button must not be there.
+    expect(screen.queryByRole('button', { name: en['welcome.start'] })).toBeNull()
   })
 
   it('renders the placeholder for a known route', async () => {
