@@ -6,6 +6,15 @@ A simple, offline-first phone app where one person writes the money received and
 
 The app lives in the [`taka-khata/`](taka-khata) folder. It is a PWA: install it once from the browser, then it works without internet. All data stays on the phone.
 
+## Features
+
+- Record money received and spent, with categories, dates, and notes.
+- See your current balance, browse and edit transaction history, and review monthly spending by category.
+- Compare your records with the money you actually have.
+- Use the app in Bangla or English, manage categories, and export or restore a backup.
+
+Your data is stored locally on your device. There are no accounts or cloud sync; use **More → Backup** to export a copy before changing devices or reinstalling the app.
+
 ---
 
 ## ফোনে ইনস্টল করবেন যেভাবে (বাংলা)
@@ -60,7 +69,10 @@ npm install       # first time only
 npm run dev       # local dev server (http://127.0.0.1:5173/)
 npm test          # all tests
 npm run typecheck # TypeScript only
-npm run build     # production build into taka-khata/dist/
+npm run build     # GitHub Pages production build into dist/
+npm run build:android  # Android web assets into dist/
+npm run build:netlify  # Netlify production build into dist/
+npm run check:netlify  # verify the Netlify build output
 npm run preview   # serve the production build
 ```
 
@@ -68,10 +80,20 @@ npm run preview   # serve the production build
 
 ### Deploying
 
+#### GitHub Pages
+
 ```bash
 cd taka-khata
 npm run build
 # publish dist/ to the gh-pages branch of this repository
 ```
 
-Pages is served from the `gh-pages` branch root. The design and data rules live in [`taka-khata/docs/`](taka-khata/docs).
+Pages is served from the `gh-pages` branch root.
+
+#### Netlify
+
+Set the Netlify base directory to `taka-khata`. The included [`netlify.toml`](taka-khata/netlify.toml) builds the site for the domain root and publishes `dist/`.
+
+The Android APK workflow runs on pushes to `main` and on `v*` tags. The latest build can be downloaded from its GitHub Actions run; APKs built from `v*` tags are also attached to GitHub Releases.
+
+The design and data rules live in [`taka-khata/docs/`](taka-khata/docs).
